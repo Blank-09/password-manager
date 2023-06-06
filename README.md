@@ -32,3 +32,11 @@ $ pnpm build:mac
 # For Linux
 $ pnpm build:linux
 ```
+
+---
+### Adding Components with shadcn
+
+To select and add components, run:
+```sh
+pnpx shadcn-ui add
+```

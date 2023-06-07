@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -7,14 +7,40 @@ function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
-    height: 670,
+    height: 600,
     show: false,
-    autoHideMenuBar: true,
+    frame: false,
+
+    // autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
+  })
+
+  // mainWindow.removeMenu()
+  // mainWindow.webContents.openDevTools()
+
+  ipcMain.on('minimize', () => {
+    mainWindow.minimize()
+  })
+
+  ipcMain.on('maximize', () => {
+    if (mainWindow.isMaximized()) mainWindow.unmaximize()
+    else mainWindow.maximize()
+  })
+
+  ipcMain.on('close', () => {
+    mainWindow.close()
+  })
+
+  mainWindow.on('maximize', () => {
+    mainWindow.webContents.send('maximize', true)
+  })
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('maximize', false)
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -40,7 +66,7 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.password-manager')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

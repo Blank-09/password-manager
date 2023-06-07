@@ -4,7 +4,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   main: {
+    mode: 'development',
     build: {
+      watch: { include: ['electron/main/**'] },
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'electron/main/index.ts')
@@ -13,7 +15,9 @@ export default defineConfig({
     }
   },
   preload: {
+    mode: 'development',
     build: {
+      watch: { include: ['electron/preload/**'] },
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'electron/preload/index.ts')
@@ -32,7 +36,8 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '@renderer': resolve('src')
+        // '@renderer': resolve('src'),
+        '@': resolve('src')
       }
     },
     plugins: [react()]

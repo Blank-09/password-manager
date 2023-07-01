@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="overflow -hidden">
   <head>
     <meta charset="UTF-8" />
     <title>Password Manager</title>
@@ -10,8 +10,8 @@
     />
   </head>
 
-  <body class="">
-    <div class="h-screen overflow-hidden flex flex-col">
+  <body>
+    <div class="h-screen flex flex-col">
       <nav
         class="bg-slate-900 text-white border-b-2 logo-border dark:logo-border-dark flex z-[100]"
       >
@@ -108,7 +108,7 @@
           </div>
         </div>
       </nav>
-      <div id="root" class="h-full"></div>
+      <div id="root" class="h-full overflow-auto"></div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

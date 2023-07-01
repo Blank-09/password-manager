@@ -32,8 +32,8 @@ const Security = () => {
       document.body.classList.remove('wrong')
       localStorage.setItem('login', '1')
       setTimeout(() => {
-        navigate('/home')
-      }, 1000)
+        navigate('/accounts')
+      }, 100)
     } else {
       document.body.classList.add('wrong')
     }

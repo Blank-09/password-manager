@@ -13,7 +13,11 @@ import './styles/globals.css'
 import { ContextMenuProvider } from './components/ContextMenu'
 import { MenubarDemo } from './components/MenuBar'
 import { CommandDialogDemo } from './components/Command'
+
 import Security from './pages/Security'
+import AddAccount from './pages/home/AddAccount'
+import AccountEmpty from './pages/home/AccountEmpty'
+import { getUserAccounts } from './lib/SQL'
 
 const router = createBrowserRouter([
   {
@@ -21,8 +25,21 @@ const router = createBrowserRouter([
     element: <Security />
   },
   {
-    path: '/home',
-    element: <App />
+    path: 'accounts',
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <AccountEmpty />,
+        loader: () => {
+          return getUserAccounts()
+        }
+      },
+      {
+        path: 'new',
+        element: <AddAccount />
+      }
+    ]
   }
 ])
 

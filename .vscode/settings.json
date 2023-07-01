@@ -1,5 +1,5 @@
 {
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

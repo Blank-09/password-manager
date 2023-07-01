@@ -37,7 +37,8 @@ export default defineConfig({
     resolve: {
       alias: {
         // '@renderer': resolve('src'),
-        '@': resolve('src')
+        '@': resolve('src'),
+        '@components': resolve(__dirname, 'src/components')
       }
     },
     plugins: [react()]

@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 import { Plus, Podcast } from 'lucide-react'
-import { Switch } from './components/ui/switch'
-import { CommandDialogDemo } from './components/Command'
-// import { SelectDemo } from './components/Select'
 
 import {
   Dialog,
@@ -14,25 +11,33 @@ import {
   DialogTitle,
   DialogTrigger
 } from './components/ui/dialog'
+
+// import { SelectDemo } from './components/Select'
+
 import { Input } from './components/ui/input'
 import { Label } from './components/ui/label'
 import { Button } from './components/ui/button'
+import { Switch } from './components/ui/switch'
 
 function App(): JSX.Element {
   const [dark, setDark] = React.useState<boolean>(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const dark = localStorage.getItem('dark') === '1'
     setDark(dark)
+
     if (dark) {
       document.body.classList.add('dark')
+    }
+
+    if (localStorage.getItem('login') !== '1') {
+      navigate('/')
     }
   }, [])
 
   return (
     <div className="px-3 pt-3 flex flex-col h-full">
-      <CommandDialogDemo />
-
       <div className="flex justify-between items-center">
         <h3 className="px-1 text-xl font-semibold">Accounts Manager</h3>
 
@@ -47,6 +52,7 @@ function App(): JSX.Element {
               document.body.classList.toggle('dark')
             }}
           />
+
           {/* <SelectDemo /> */}
         </div>
       </div>
@@ -60,11 +66,9 @@ function App(): JSX.Element {
               You have not added any Accounts. Add one below.
             </p>
             <Dialog>
-              <DialogTrigger>
-                <Button size="sm" className="relative">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add Account
-                </Button>
+              <DialogTrigger className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 relative">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Account
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -84,7 +88,7 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button>Import Account</Button>
+                  <Button>Add Account</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>

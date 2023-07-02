@@ -23,7 +23,7 @@ const AccountEmpty = () => {
               <p className="mb-4 mt-2 text-sm text-muted-foreground">
                 You have not added any Accounts. Add one below.
               </p>
-              <Link to="new">
+              <Link to="create">
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
                   Add Account

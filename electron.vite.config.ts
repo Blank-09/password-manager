@@ -6,6 +6,8 @@ export default defineConfig({
   main: {
     mode: 'development',
     build: {
+      minify: true,
+      sourcemap: false,
       watch: { include: ['electron/main/**'] },
       rollupOptions: {
         input: {
@@ -17,6 +19,8 @@ export default defineConfig({
   preload: {
     mode: 'development',
     build: {
+      minify: true,
+      sourcemap: false,
       watch: { include: ['electron/preload/**'] },
       rollupOptions: {
         input: {
@@ -27,7 +31,10 @@ export default defineConfig({
   },
   renderer: {
     root: '.',
+    mode: 'development',
     build: {
+      minify: true,
+      sourcemap: false,
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'index.html')

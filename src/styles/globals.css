@@ -99,6 +99,11 @@
   }
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .draggable {
   -webkit-app-region: drag;
 }

@@ -2,8 +2,17 @@ import { EncryptedPassword, encrypt, decrypt } from './crypto'
 const { Database } = require('sqlite3')
 
 import IUserAccount from '../interface/IUserAccount'
+import { existsSync, mkdirSync } from 'fs'
+import path from 'path'
 
-const db = new Database('./db/db.sqlite3')
+const dbPath = path.join(__dirname, '../../db/db.sqlite3')
+
+if (!existsSync(dbPath)) {
+  console.log('Database not found, creating a new one...')
+  mkdirSync(path.join(__dirname, '../../db'), { recursive: true })
+}
+
+const db = new Database(dbPath)
 
 export function createTable() {
   db.serialize(() => {
@@ -74,7 +83,7 @@ export function updateUserAccount(
 
 export type UserAccount = IUserAccount & EncryptedPassword
 
-export function selectAllFromUserAccount(): Promise<IUserAccount[]> {
+export function selectAllFromUserAccount(): Promise<UserAccount[]> {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
       db.all(`SELECT * FROM UserAccounts;`, (err, rows: UserAccount[]) => {
@@ -91,6 +100,26 @@ export function selectAllFromUserAccount(): Promise<IUserAccount[]> {
         })
 
         resolve(rows)
+      })
+    })
+  })
+}
+
+export function selectFromUserAccount(id: number): Promise<UserAccount> {
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.get(`SELECT * FROM UserAccounts WHERE id = ?;`, [id], (err, row: UserAccount) => {
+        if (err) {
+          return reject(err)
+        }
+
+        row.password = decrypt({
+          salt: row.salt,
+          tag: row.tag,
+          password: row.password
+        })
+
+        resolve(row)
       })
     })
   })

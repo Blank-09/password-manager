@@ -42,7 +42,7 @@ function App(): JSX.Element {
             }}
           />
 
-          <Button size="icon" onClick={() => navigate('new')}>
+          <Button size="icon" onClick={() => navigate('create')}>
             <Plus className="h-4 w-4" />
           </Button>
 

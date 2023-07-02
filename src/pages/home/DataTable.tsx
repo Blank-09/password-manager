@@ -18,7 +18,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '../../components/ui/dropdown-menu'
@@ -39,6 +38,9 @@ import { Input } from '../../components/ui/input'
 
 import IUserAccount from '../../interface/IUserAccount'
 import { Clipboard, Pencil, Trash } from 'lucide-react'
+import { removeUserAccount } from '../../lib/SQL'
+import { useNavigate } from 'react-router-dom'
+import { AlertDialogDemo } from './AlertDialog'
 
 export const columns: ColumnDef<IUserAccount>[] = [
   {
@@ -114,6 +116,7 @@ export const columns: ColumnDef<IUserAccount>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const data = row.original
+      const navigate = useNavigate()
 
       return (
         <DropdownMenu>
@@ -128,12 +131,12 @@ export const columns: ColumnDef<IUserAccount>[] = [
               <Clipboard size={16} className="me-2" />
               Copy Password
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('./edit/' + data.id)}>
               <Pencil size={16} className="me-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('./delete/' + data.id)}>
               <Trash size={16} className="me-2 text-red-500" />
               <span className="text-red-500">Delete</span>
             </DropdownMenuItem>
@@ -152,17 +155,20 @@ export const DataTableDemo: React.FC<{
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  React.useEffect(() => {
-    window.onresize = () => {
-      table.setPageSize(
-        Math.max(
-          Math.floor(
-            (parseFloat(window.getComputedStyle(document.body as HTMLElement).height) - 240) / 48
-          ),
-          5
-        )
+  function resizeTable() {
+    table.setPageSize(
+      Math.max(
+        Math.floor(
+          (parseFloat(window.getComputedStyle(document.body as HTMLElement).height) - 240) / 48
+        ),
+        5
       )
-    }
+    )
+  }
+
+  React.useEffect(() => {
+    resizeTable() // Initial resize
+    window.onresize = resizeTable
 
     return () => {
       window.onresize = null
@@ -223,12 +229,12 @@ export const DataTableDemo: React.FC<{
         </DropdownMenu>
       </div>
       <div
-        className="rounded-md border overflow-auto"
+        className="rounded-md border overflow-scroll custom-scrollbar"
         style={{
           height: 'calc(100vh - 200px)'
         }}
       >
-        <Table className="hello">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -267,8 +273,13 @@ export const DataTableDemo: React.FC<{
       </div>
       <div className="flex items-center">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {/* Page number */}
+          <span>
+            Page{' '}
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </strong>
+          </span>
         </div>
         <div className="space-x-2">
           <Button

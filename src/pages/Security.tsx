@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const PASSWORD = import.meta.env.VITE_APP_PASSWORD || '123456'
+
 const Security = () => {
   const navigate = useNavigate()
 
@@ -18,17 +20,17 @@ const Security = () => {
   }
 
   function submit() {
-    const isPasswordWrong = '123456' !== form.password
+    const isPasswordWrong = PASSWORD !== form.password
 
     setForm((prev) => ({
       ...prev,
       attempts: prev.attempts - (isPasswordWrong ? 1 : 0),
       password: '',
       isWrong: isPasswordWrong,
-      isSubmitted: '123456' == prev.password
+      isSubmitted: PASSWORD == prev.password
     }))
 
-    if ('123456' == form.password) {
+    if (PASSWORD == form.password) {
       document.body.classList.remove('wrong')
       localStorage.setItem('login', '1')
       setTimeout(() => {

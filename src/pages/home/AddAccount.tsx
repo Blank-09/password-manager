@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
   Dialog,
@@ -13,7 +13,8 @@ import { Input } from '../../components/ui/input'
 import { Label } from '../../components/ui/label'
 import { Button } from '../../components/ui/button'
 
-import { insertIntoUserAccount } from '../../lib/SQL'
+import { getUserAccount, insertIntoUserAccount, updateUserAccount } from '../../lib/SQL'
+import { useMatch } from 'react-router-dom'
 
 const initialState = {
   name: '',
@@ -25,15 +26,44 @@ const AddAccount = () => {
   const [open, setOpen] = React.useState<boolean>(true)
   const [data, setData] = React.useState(initialState)
 
+  const match = useMatch('/accounts/edit/:id')
+  const isEditMode = match?.params.id !== undefined
+
+  useEffect(() => {
+    if (match?.params.id === undefined) return
+
+    getUserAccount(parseInt(match.params.id)) //
+      .then((res) => {
+        if (res !== undefined) {
+          setData({
+            name: res.account_name,
+            username: res.username,
+            password: res.password
+          })
+        }
+      })
+  }, [])
+
   function onClickHandler() {
-    // @ts-ignore SQL creates a new ID
-    insertIntoUserAccount({
-      icon: '/test.png',
-      account_name: data.name,
-      username: data.username,
-      password: data.password,
-      isFavorite: false
-    })
+    if (match?.params.id === undefined) {
+      insertIntoUserAccount({
+        id: -1,
+        icon: '/test.png',
+        account_name: data.name,
+        username: data.username,
+        password: data.password,
+        isFavorite: false
+      })
+    } else {
+      updateUserAccount({
+        id: parseInt(match.params.id),
+        icon: '/test.png',
+        account_name: data.name,
+        username: data.username,
+        password: data.password,
+        isFavorite: false
+      })
+    }
 
     setData(initialState)
     setOpen(false)
@@ -57,7 +87,7 @@ const AddAccount = () => {
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Account</DialogTitle>
+          <DialogTitle>{isEditMode ? 'Edit' : 'Add'} Account</DialogTitle>
           <DialogDescription>Please fill your Accounts details to import.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -90,7 +120,7 @@ const AddAccount = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={onClickHandler}>Add Account</Button>
+          <Button onClick={onClickHandler}>{isEditMode ? 'Update' : 'Add'} Account</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

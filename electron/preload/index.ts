@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   $('minimize')?.addEventListener('click', () => {
-    ipcRenderer.send('minimize')
+    ipcRenderer.send('minimize', 'data')
   })
 
   $('maximize')?.addEventListener('click', () => {

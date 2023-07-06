@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const PASSWORD = import.meta.env.VITE_APP_PASSWORD || '123456'
+const PASSWORD = import.meta.env.VITE_APP_PASSWORD || '111111'
 
 const Security = () => {
   const navigate = useNavigate()

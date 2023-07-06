@@ -12,7 +12,6 @@ import './styles/globals.css'
 // Components
 import { ContextMenuProvider } from './components/ContextMenu'
 import { MenubarDemo } from './components/MenuBar'
-import { CommandDialogDemo } from './components/Command'
 
 import Security from './pages/Security'
 import AddAccount from './pages/home/AddAccount'
@@ -62,7 +61,6 @@ if (dark) {
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ContextMenuProvider>
-      <CommandDialogDemo />
       <RouterProvider router={router} />
     </ContextMenuProvider>
   </React.StrictMode>

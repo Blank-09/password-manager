@@ -38,9 +38,7 @@ import { Input } from '../../components/ui/input'
 
 import IUserAccount from '../../interface/IUserAccount'
 import { Clipboard, Pencil, Trash } from 'lucide-react'
-import { removeUserAccount } from '../../lib/SQL'
 import { useNavigate } from 'react-router-dom'
-import { AlertDialogDemo } from './AlertDialog'
 
 export const columns: ColumnDef<IUserAccount>[] = [
   {

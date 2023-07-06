@@ -5,11 +5,11 @@ import IUserAccount from '../interface/IUserAccount'
 import { existsSync, mkdirSync } from 'fs'
 import path from 'path'
 
-const dbPath = path.join(__dirname, '../../db/db.sqlite3')
+const dbPath = path.join(process.resourcesPath, 'db/db.sqlite3')
 
 if (!existsSync(dbPath)) {
   console.log('Database not found, creating a new one...')
-  mkdirSync(path.join(__dirname, '../../db'), { recursive: true })
+  mkdirSync(path.join(process.resourcesPath, 'db'), { recursive: true })
 }
 
 const db = new Database(dbPath)

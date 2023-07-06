@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react'
 import { Label } from './components/ui/label'
 import { Button } from './components/ui/button'
 import { Switch } from './components/ui/switch'
+import { CommandDialogDemo } from './components/Command'
 
 function App(): JSX.Element {
   const [dark, setDark] = React.useState<boolean>(false)
@@ -26,32 +27,35 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <div className="p-3 flex gap-3 flex-col h-full">
-      <div className="flex justify-between items-center">
-        <h3 className="px-1 text-xl font-semibold">Accounts Manager</h3>
+    <>
+      <CommandDialogDemo />
+      <div className="p-3 flex gap-3 flex-col h-full">
+        <div className="flex justify-between items-center">
+          <h3 className="px-1 text-xl font-semibold">Accounts Manager</h3>
 
-        <div className="flex items-center space-x-3">
-          <Label htmlFor="toggle">Dark Mode: </Label>
-          <Switch
-            id="toggle"
-            checked={dark}
-            onClick={() => {
-              setDark(!dark)
-              localStorage.setItem('dark', dark ? '0' : '1')
-              document.body.classList.toggle('dark')
-            }}
-          />
+          <div className="flex items-center space-x-3">
+            <Label htmlFor="toggle">Dark Mode: </Label>
+            <Switch
+              id="toggle"
+              checked={dark}
+              onClick={() => {
+                setDark(!dark)
+                localStorage.setItem('dark', dark ? '0' : '1')
+                document.body.classList.toggle('dark')
+              }}
+            />
 
-          <Button size="icon" onClick={() => navigate('create')}>
-            <Plus className="h-4 w-4" />
-          </Button>
+            <Button size="icon" onClick={() => navigate('create')}>
+              <Plus className="h-4 w-4" />
+            </Button>
 
-          {/* <SelectDemo /> */}
+            {/* <SelectDemo /> */}
+          </div>
         </div>
-      </div>
 
-      <Outlet />
-    </div>
+        <Outlet />
+      </div>
+    </>
   )
 }
 

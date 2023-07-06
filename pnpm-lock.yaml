@@ -53,6 +53,9 @@ dependencies:
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
+  electron-serve:
+    specifier: ^1.1.0
+    version: 1.1.0
   sqlite3:
     specifier: ^5.1.6
     version: 5.1.6
@@ -3099,6 +3102,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /electron-serve@1.1.0:
+    resolution: {integrity: sha512-tQJBCbXKoKCfkBC143QCqnEtT1s8dNE2V+b/82NF6lxnGO/2Q3a3GSLHtKl3iEDQgdzTf9pH7p418xq2rXbz1Q==}
+    dev: false
 
   /electron-to-chromium@1.4.421:
     resolution: {integrity: sha512-wZOyn3s/aQOtLGAwXMZfteQPN68kgls2wDAnYOA8kCjBvKVrW5RwmWVspxJYTqrcN7Y263XJVsC66VCIGzDO3g==}

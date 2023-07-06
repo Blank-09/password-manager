@@ -1,5 +1,11 @@
+import { is } from '@electron-toolkit/utils'
 import crypto from 'crypto'
 require('dotenv').config()
+
+if (!is.dev && !process.env.ENCRYPT_KEY) {
+  // @ts-ignore In production, the ENCRYPT_KEY is set in the env file.
+  process.env.ENCRYPT_KEY = '%1DkJD0D5bFQ2#dD$9Eph3v5Dxk!6cf0'
+}
 
 export const encrypt = (password: string) => {
   const iv = Buffer.from(crypto.randomBytes(16))

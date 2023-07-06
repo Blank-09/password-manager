@@ -1,4 +1,4 @@
-import { ipcMain as ipc } from 'electron'
+import { ipcMain as ipc, dialog } from 'electron'
 import IUserAccount from './interface/IUserAccount'
 
 import {
@@ -9,17 +9,27 @@ import {
   updateUserAccount
 } from './utils'
 
-ipc.handle('db:insertUserAccount', async (_e, arg: IUserAccount) => {
+ipc.on('ping', (_e, args: string) => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Alert',
+    message: args,
+    buttons: ['OK']
+  })
+  return 'pong'
+})
+
+ipc.handle('db:insertUserAccount', (_e, arg: IUserAccount) => {
   insertIntoUserAccount(
-    arg.account_name, //
-    arg.username,
-    arg.icon,
-    arg.password,
-    arg.isFavorite
+    arg?.account_name || '', //
+    arg?.username || '',
+    arg?.icon || '',
+    arg?.password || '',
+    arg?.isFavorite || true
   )
 })
 
-ipc.handle('db:updateUserAccount', async (_e, arg: IUserAccount) => {
+ipc.handle('db:updateUserAccount', (_e, arg: IUserAccount) => {
   updateUserAccount(
     arg.id, //
     arg.account_name,
@@ -30,7 +40,7 @@ ipc.handle('db:updateUserAccount', async (_e, arg: IUserAccount) => {
   )
 })
 
-ipc.handle('db:removeUserAccount', async (_e, arg: number) => {
+ipc.handle('db:removeUserAccount', (_e, arg: number) => {
   removeUserAccount(arg)
 })
 

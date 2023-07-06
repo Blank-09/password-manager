@@ -36,6 +36,7 @@
     "@tanstack/react-table": "^8.9.3",
     "cmdk": "^0.2.0",
     "dotenv": "^16.3.1",
+    "electron-serve": "^1.1.0",
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {

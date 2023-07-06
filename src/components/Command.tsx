@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
+import { CreditCard, Settings, User, Plus, Moon, Inspect, Key, LucideIcon } from 'lucide-react'
 
 import {
   CommandDialog,
@@ -12,13 +12,72 @@ import {
   CommandShortcut
 } from './ui/command'
 
+import { NavigateFunction, useNavigate } from 'react-router-dom'
+
+interface CommandGroup {
+  heading: string
+  type: 'group'
+  items: Array<{
+    name: string
+    shortcut?: string
+    icon: LucideIcon
+    onSelect: (navigator: NavigateFunction) => void
+  }>
+}
+
+const groups: [CommandGroup, CommandGroup] = [
+  {
+    heading: 'Account Manager',
+    type: 'group',
+    items: [
+      {
+        name: 'Add Account',
+        icon: Plus,
+        onSelect: (navigate) => {
+          navigate('/accounts/create')
+          console.log('Selecting')
+        }
+      }
+    ]
+  },
+  {
+    heading: 'Settings',
+    type: 'group',
+    items: [
+      {
+        name: 'Dark Mode',
+        shortcut: 'Ctrl+D',
+        icon: Moon,
+        onSelect: () => {
+          localStorage.setItem('dark', localStorage.getItem('dark') === '1' ? '0' : '1')
+          document.body.classList.toggle('dark')
+        }
+      },
+      {
+        name: 'DevTools',
+        shortcut: 'Ctrl+Shift+I',
+        icon: Inspect,
+        onSelect: () => {
+          window.electron.ipcRenderer.invoke('win:devtools')
+        }
+      }
+    ]
+  }
+]
+
 export function CommandDialogDemo() {
   const [open, setOpen] = React.useState(false)
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'p' && e.ctrlKey) {
         setOpen((open) => !open)
+      }
+
+      if (e.ctrlKey && e.key === 'd') {
+        localStorage.setItem('dark', localStorage.getItem('dark') === '1' ? '0' : '1')
+        document.body.classList.toggle('dark')
       }
     }
 
@@ -31,38 +90,27 @@ export function CommandDialogDemo() {
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
-          <CommandItem>
-            <Calendar className="mr-2 h-4 w-4" />
-            <span>Calendar</span>
-          </CommandItem>
-          <CommandItem>
-            <Smile className="mr-2 h-4 w-4" />
-            <span>Search Emoji</span>
-          </CommandItem>
-          <CommandItem>
-            <Calculator className="mr-2 h-4 w-4" />
-            <span>Calculator</span>
-          </CommandItem>
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Settings">
-          <CommandItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <CommandShortcut>⌘P</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <CommandShortcut>⌘B</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <CommandShortcut>⌘S</CommandShortcut>
-          </CommandItem>
-        </CommandGroup>
+
+        {groups.map((item, i) => (
+          <React.Fragment key={'group' + i}>
+            <CommandGroup heading={item.heading}>
+              {item.items.map((item, i) => (
+                <CommandItem
+                  key={i}
+                  onSelect={() => {
+                    item.onSelect(navigate)
+                    setOpen(!open)
+                  }}
+                >
+                  <item.icon className="mr-2 h-4 w-4" />
+                  <span>{item.name}</span>
+                  {item.shortcut && <CommandShortcut>{item.shortcut}</CommandShortcut>}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+            <CommandSeparator />
+          </React.Fragment>
+        ))}
       </CommandList>
     </CommandDialog>
   )

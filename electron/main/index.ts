@@ -1,16 +1,17 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
-import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 
 import icon from '../../resources/icon.png?asset'
 import serve from './serve'
 
-// let loadURL
-// if (is.dev) {
-const loadURL = serve({ directory: 'out/renderer', scheme: 'pmg' })
-// }
-
 import './IPC_SQL'
+
+let loadURL: ReturnType<typeof serve>
+
+if (is.dev) {
+  loadURL = serve({ directory: 'out/renderer', scheme: 'pmg' })
+}
 
 async function createWindow(): Promise<void> {
   // Create the browser window.
@@ -20,16 +21,12 @@ async function createWindow(): Promise<void> {
     show: false,
     frame: false,
 
-    // autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
-
-  // mainWindow.removeMenu()
-  // mainWindow.webContents.openDevTools()
 
   ipcMain.on('minimize', () => {
     mainWindow.minimize()
@@ -67,12 +64,11 @@ async function createWindow(): Promise<void> {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  // if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-  //   mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  // } else {
-  await loadURL(mainWindow)
-  // mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  // }
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  } else {
+    await loadURL(mainWindow)
+  }
 }
 
 // This method will be called when Electron has finished

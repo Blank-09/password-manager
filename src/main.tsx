@@ -11,7 +11,6 @@ import './styles/globals.css'
 
 // Components
 import { ContextMenuProvider } from './components/ContextMenu'
-import { MenubarDemo } from './components/MenuBar'
 
 import Security from './pages/Security'
 import AddAccount from './pages/home/AddAccount'
@@ -63,11 +62,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ContextMenuProvider>
       <RouterProvider router={router} />
     </ContextMenuProvider>
-  </React.StrictMode>
-)
-
-ReactDOM.createRoot(document.getElementById('menubar') as HTMLElement).render(
-  <React.StrictMode>
-    <MenubarDemo />
   </React.StrictMode>
 )

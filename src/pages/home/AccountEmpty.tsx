@@ -5,7 +5,7 @@ import { Plus, Podcast } from 'lucide-react'
 import { Button } from '../../components/ui/button'
 
 import IUserAccount from '../../interface/IUserAccount'
-import { DataTableDemo } from './DataTable'
+import { AccountsDataTable } from './DataTable'
 
 const AccountEmpty = () => {
   const data = useLoaderData() as IUserAccount[]
@@ -13,7 +13,7 @@ const AccountEmpty = () => {
   return (
     <>
       {data.length > 0 ? (
-        <DataTableDemo data={data} />
+        <AccountsDataTable data={data} />
       ) : (
         <div className="py-3 h-full">
           <div className="flex h-full w-full shrink-0 items-center justify-center rounded-md border border-dashed">

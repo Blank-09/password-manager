@@ -17,7 +17,7 @@ import {
 
 export function MenubarDemo() {
   return (
-    <Menubar>
+    <Menubar className="hidden sm:flex absolute top-0 left-8 z-[101]">
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>

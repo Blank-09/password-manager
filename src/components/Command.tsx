@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CreditCard, Settings, User, Plus, Moon, Inspect, Key, LucideIcon } from 'lucide-react'
+import { Plus, Moon, Inspect, Copy, LucideIcon } from 'lucide-react'
 
 import {
   CommandDialog,
@@ -13,6 +13,7 @@ import {
 } from './ui/command'
 
 import { NavigateFunction, useNavigate } from 'react-router-dom'
+import generateRandomPassword from '../lib/generatePassword'
 
 interface CommandGroup {
   heading: string
@@ -35,7 +36,28 @@ const groups: [CommandGroup, CommandGroup] = [
         icon: Plus,
         onSelect: (navigate) => {
           navigate('/accounts/create')
-          console.log('Selecting')
+        }
+      },
+      {
+        name: 'Generate Random Password',
+        icon: Copy,
+        onSelect: () => {
+          navigator.clipboard.writeText(
+            generateRandomPassword({
+              length: 16,
+              contains: {
+                lowercase: true,
+                number: true,
+                symbol: true,
+                uppercase: true
+              },
+              itShouldBe: {
+                isAllCharacters: true,
+                isEasyToRead: true,
+                isEasyToSay: true
+              }
+            })
+          )
         }
       }
     ]

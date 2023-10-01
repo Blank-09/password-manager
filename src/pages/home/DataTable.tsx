@@ -37,8 +37,18 @@ import { Checkbox } from '../../components/ui/checkbox'
 import { Input } from '../../components/ui/input'
 
 import IUserAccount from '../../interface/IUserAccount'
-import { Clipboard, Pencil, Trash } from 'lucide-react'
+import { Clipboard, ListFilter, Pencil, Trash } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectLabel,
+//   SelectTrigger,
+//   SelectValue
+// } from '../../components/ui/select'
+import { Filter } from 'lucide-react'
 
 export const columns: ColumnDef<IUserAccount>[] = [
   {
@@ -68,7 +78,7 @@ export const columns: ColumnDef<IUserAccount>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Name
+          Account Name
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -83,7 +93,7 @@ export const columns: ColumnDef<IUserAccount>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Username
+          Username/Email
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -108,6 +118,36 @@ export const columns: ColumnDef<IUserAccount>[] = [
       const isFavorite = parseFloat(row.getValue('isFavorite'))
       return <div className="font-medium">{isFavorite ? 'True' : 'False'}</div>
     }
+  },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Created At
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{new Date(row.getValue('created_at')).toUTCString()}</div>
+  },
+  {
+    accessorKey: 'modified_at',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Modified At
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{new Date(row.getValue('modified_at')).toUTCString()}</div>
   },
   {
     id: 'actions',
@@ -145,13 +185,20 @@ export const columns: ColumnDef<IUserAccount>[] = [
   }
 ]
 
-export const DataTableDemo: React.FC<{
+type SearchByType = {
+  searchBy: 'Account Name' | 'Username'
+}
+
+export const AccountsDataTable: React.FC<{
   data: IUserAccount[]
 }> = (props) => {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
+    created_at: false
+  })
   const [rowSelection, setRowSelection] = React.useState({})
+  const [searchOptions, setSearchOptions] = React.useState<SearchByType>({ searchBy: 'Username' })
 
   function resizeTable() {
     table.setPageSize(
@@ -195,16 +242,69 @@ export const DataTableDemo: React.FC<{
   return (
     <div className="w-full h-full gap-3 flex flex-col">
       <div className="flex items-center">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('username')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('username')?.setFilterValue(event.target.value)}
-          className="max-w-sm"
-        />
+        <div className="relative w-full max-w-sm">
+          <Input
+            placeholder={`Filter by ${searchOptions.searchBy}...`}
+            value={
+              (table
+                .getColumn(searchOptions.searchBy.toLowerCase().replace(' ', '_'))
+                ?.getFilterValue() as string) ?? ''
+            }
+            onChange={(event) =>
+              table
+                .getColumn(searchOptions.searchBy.toLowerCase().replace(' ', '_'))
+                ?.setFilterValue(event.target.value)
+            }
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="link" className="absolute right-0 top-0">
+                <Filter size={'16'} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {['Account Name', 'Username'].map((item) => (
+                <DropdownMenuCheckboxItem
+                  key={item}
+                  checked={searchOptions.searchBy === item}
+                  onClick={() =>
+                    // @ts-ignore It will include only the above values
+                    setSearchOptions({ searchBy: item })
+                  }
+                >
+                  {item}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        {/* <Select
+          onValueChange={(value) => {
+            if (value === 'a-z' || value === 'z-a') {
+              setSorting([{ id: 'account_name', desc: value === 'z-a' }])
+            } else {
+              setSorting([{ id: value, desc: false }])
+            }
+          }}
+        >
+          <SelectTrigger className="w-[180px] ml-auto">
+            <SelectValue placeholder="Sort by (default)" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Sort by</SelectLabel>
+              <SelectItem value="a-z">A-Z (default)</SelectItem>
+              <SelectItem value="z-a">Z-A (DES)</SelectItem>
+              <SelectItem value="created_at">Created Date</SelectItem>
+              <SelectItem value="modified_at">Modified Date</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+            <Button variant="outline" className="ms-auto ml-3">
+              <ListFilter size={'16'} className="mr-2" />
+              Filter Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

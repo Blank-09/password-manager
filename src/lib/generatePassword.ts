@@ -30,7 +30,7 @@ function includesCharacters(options?: IPasswordGeneratorInclude) {
 export interface IPasswordGeneratorOptions {
   length: number
   contains: IPasswordGeneratorInclude
-  password: string
+  password?: string
   itShouldBe: {
     isEasyToSay: boolean
     isEasyToRead: boolean

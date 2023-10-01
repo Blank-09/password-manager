@@ -119,6 +119,9 @@ export function selectFromUserAccount(id: number): Promise<UserAccount> {
           password: row.password
         })
 
+        // @ts-ignore FIX: Converts the isFavorite from 0/1 to boolean
+        row.isFavorite = Boolean(row.isFavorite)
+
         resolve(row)
       })
     })

@@ -12,6 +12,7 @@ import {
 import { Input } from '../../components/ui/input'
 import { Label } from '../../components/ui/label'
 import { Button } from '../../components/ui/button'
+import { Checkbox } from '../../components/ui/checkbox'
 
 import { getUserAccount, insertIntoUserAccount, updateUserAccount } from '../../lib/SQL'
 import { useMatch } from 'react-router-dom'
@@ -19,7 +20,8 @@ import { useMatch } from 'react-router-dom'
 const initialState = {
   name: '',
   username: '',
-  password: ''
+  password: '',
+  isFavorite: false
 }
 
 const AddAccount = () => {
@@ -34,11 +36,12 @@ const AddAccount = () => {
 
     getUserAccount(parseInt(match.params.id)) //
       .then((res) => {
-        if (res !== undefined) {
+        if (res) {
           setData({
             name: res.account_name,
             username: res.username,
-            password: res.password
+            password: res.password,
+            isFavorite: res.isFavorite
           })
         }
       })
@@ -52,7 +55,7 @@ const AddAccount = () => {
         account_name: data.name,
         username: data.username,
         password: data.password,
-        isFavorite: false
+        isFavorite: data.isFavorite
       })
     } else {
       updateUserAccount({
@@ -61,7 +64,7 @@ const AddAccount = () => {
         account_name: data.name,
         username: data.username,
         password: data.password,
-        isFavorite: false
+        isFavorite: data.isFavorite
       })
     }
 
@@ -77,6 +80,15 @@ const AddAccount = () => {
     }))
   }
 
+  function onChangeFavourite() {
+    setData((prev) => ({
+      ...prev,
+      isFavorite: !prev.isFavorite
+    }))
+  }
+
+  console.log(data)
+
   return (
     <Dialog
       open={open}
@@ -88,7 +100,7 @@ const AddAccount = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditMode ? 'Edit' : 'Add'} Account</DialogTitle>
-          <DialogDescription>Please fill your Accounts details to import.</DialogDescription>
+          <DialogDescription>Please fill your Accounts details.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -117,6 +129,19 @@ const AddAccount = () => {
               id="password"
               placeholder="password"
             />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="favourites"
+              checked={data.isFavorite}
+              onCheckedChange={onChangeFavourite}
+            />
+            <label
+              htmlFor="favourites"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Add to Favourites
+            </label>
           </div>
         </div>
         <DialogFooter>

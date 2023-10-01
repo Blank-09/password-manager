@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 
-// import { SelectDemo } from './components/Select'
-
+// Components
 import { Label } from './components/ui/label'
 import { Button } from './components/ui/button'
 import { Switch } from './components/ui/switch'
 import { CommandDialogDemo } from './components/Command'
+import { MenubarDemo } from './components/MenuBar'
 
 function App(): JSX.Element {
   const [dark, setDark] = React.useState<boolean>(false)
@@ -28,6 +28,7 @@ function App(): JSX.Element {
 
   return (
     <>
+      <MenubarDemo />
       <CommandDialogDemo />
       <div className="p-3 flex gap-3 flex-col h-full">
         <div className="flex justify-between items-center">
@@ -48,8 +49,6 @@ function App(): JSX.Element {
             <Button size="icon" onClick={() => navigate('create')}>
               <Plus className="h-4 w-4" />
             </Button>
-
-            {/* <SelectDemo /> */}
           </div>
         </div>
 

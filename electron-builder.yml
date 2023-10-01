@@ -1,5 +1,5 @@
 appId: com.password-manager.app
-productName: password-manager
+productName: Password Manager
 directories:
   buildResources: build
 files:

@@ -25,7 +25,7 @@ ipc.handle('db:insertUserAccount', (_e, arg: IUserAccount) => {
     arg?.username || '',
     arg?.icon || '',
     arg?.password || '',
-    arg?.isFavorite || true
+    arg?.isFavorite || false
   )
 })
 

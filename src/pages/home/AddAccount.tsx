@@ -16,12 +16,14 @@ import { Checkbox } from '../../components/ui/checkbox'
 
 import { getUserAccount, insertIntoUserAccount, updateUserAccount } from '../../lib/SQL'
 import { useMatch } from 'react-router-dom'
+import { EyeIcon, EyeOff } from 'lucide-react'
 
 const initialState = {
   name: '',
   username: '',
   password: '',
-  isFavorite: false
+  isFavorite: false,
+  showPassword: false
 }
 
 const AddAccount = () => {
@@ -37,12 +39,13 @@ const AddAccount = () => {
     getUserAccount(parseInt(match.params.id)) //
       .then((res) => {
         if (res) {
-          setData({
+          setData((prev) => ({
+            ...prev,
             name: res.account_name,
             username: res.username,
             password: res.password,
             isFavorite: res.isFavorite
-          })
+          }))
         }
       })
   }, [])
@@ -87,8 +90,6 @@ const AddAccount = () => {
     }))
   }
 
-  console.log(data)
-
   return (
     <Dialog
       open={open}
@@ -123,12 +124,23 @@ const AddAccount = () => {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              onChange={onChangeHandler}
-              value={data.password}
-              id="password"
-              placeholder="password"
-            />
+            <div className="relative flex items-center">
+              <Input
+                onChange={onChangeHandler}
+                value={data.password}
+                type={data.showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder="password"
+              />
+              <Button
+                variant={'link'}
+                className="absolute end-0 px-3"
+                title={data.showPassword ? 'Hide' : 'Show'}
+                onClick={() => setData((prev) => ({ ...prev, showPassword: !prev.showPassword }))}
+              >
+                {data.showPassword ? <EyeIcon size={'16'} /> : <EyeOff size={'16'} />}
+              </Button>
+            </div>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox

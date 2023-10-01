@@ -9,7 +9,7 @@ import './IPC_SQL'
 
 let loadURL: ReturnType<typeof serve>
 
-if (is.dev) {
+if (!is.dev) {
   loadURL = serve({ directory: 'out/renderer', scheme: 'pmg' })
 }
 

@@ -6,8 +6,8 @@ import { Plus } from 'lucide-react'
 import { Label } from './components/ui/label'
 import { Button } from './components/ui/button'
 import { Switch } from './components/ui/switch'
-import { CommandDialogDemo } from './components/Command'
-import { MenubarDemo } from './components/MenuBar'
+import { CustomCommandDialog as CommandDialog } from './components/Command'
+import { CustomMenubar as Menubar } from './components/MenuBar'
 
 function App(): JSX.Element {
   const [dark, setDark] = React.useState<boolean>(false)
@@ -28,8 +28,8 @@ function App(): JSX.Element {
 
   return (
     <>
-      <MenubarDemo />
-      <CommandDialogDemo />
+      <Menubar />
+      <CommandDialog />
       <div className="p-3 flex gap-3 flex-col h-full">
         <div className="flex justify-between items-center">
           <h3 className="px-1 text-xl font-semibold">Accounts Manager</h3>

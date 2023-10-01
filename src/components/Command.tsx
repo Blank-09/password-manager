@@ -87,7 +87,7 @@ const groups: [CommandGroup, CommandGroup] = [
   }
 ]
 
-export function CommandDialogDemo() {
+export function CustomCommandDialog() {
   const [open, setOpen] = React.useState(false)
   const navigate = useNavigate()
 

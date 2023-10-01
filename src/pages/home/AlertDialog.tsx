@@ -40,8 +40,11 @@ export const AlertDialogDemo: React.FC<{
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => setOpen(false)}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => props.cb(true, parseInt(params.id || '-1'))}>
-            Continue
+          <AlertDialogAction
+            className="bg-red-700 text-destructive-foreground shadow-sm hover:bg-destructive/90"
+            onClick={() => props.cb(true, parseInt(params.id || '-1'))}
+          >
+            Delete Account
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

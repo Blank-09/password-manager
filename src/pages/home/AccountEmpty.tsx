@@ -7,7 +7,7 @@ import { Button } from '../../components/ui/button'
 import IUserAccount from '../../interface/IUserAccount'
 import { AccountsDataTable } from './DataTable'
 
-const AccountEmpty = () => {
+const AccountEmpty: React.FC = () => {
   const data = useLoaderData() as IUserAccount[]
 
   return (

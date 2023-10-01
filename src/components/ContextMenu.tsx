@@ -29,7 +29,7 @@ export function ContextMenuProvider({ children }: { children: React.ReactNode })
           Forward
           <ContextMenuShortcut>⌘]</ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem inset>
+        <ContextMenuItem inset onClick={() => window.location.reload()}>
           Reload
           <ContextMenuShortcut>⌘R</ContextMenuShortcut>
         </ContextMenuItem>
@@ -43,7 +43,13 @@ export function ContextMenuProvider({ children }: { children: React.ReactNode })
             <ContextMenuItem>Create Shortcut...</ContextMenuItem>
             <ContextMenuItem>Name Window...</ContextMenuItem>
             <ContextMenuSeparator />
-            <ContextMenuItem>Developer Tools</ContextMenuItem>
+            <ContextMenuItem
+              onClick={() => {
+                window.electron.ipcRenderer.invoke('win:devtools')
+              }}
+            >
+              Developer Tools
+            </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />

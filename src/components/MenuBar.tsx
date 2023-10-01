@@ -5,8 +5,8 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
+  // MenubarRadioGroup,
+  // MenubarRadioItem,
   MenubarSeparator,
   MenubarShortcut,
   MenubarSub,
@@ -15,9 +15,9 @@ import {
   MenubarTrigger
 } from './ui/menubar'
 
-export function MenubarDemo() {
+export function CustomMenubar() {
   return (
-    <Menubar className="hidden sm:flex absolute top-0 left-8 z-[101]">
+    <Menubar className="hidden sm:flex text-white absolute top-0 left-8 z-[101]">
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
@@ -75,10 +75,10 @@ export function MenubarDemo() {
           <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
           <MenubarCheckboxItem checked>Always Show Full URLs</MenubarCheckboxItem>
           <MenubarSeparator />
-          <MenubarItem inset>
+          <MenubarItem inset onClick={() => window.location.reload()}>
             Reload <MenubarShortcut>⌘R</MenubarShortcut>
           </MenubarItem>
-          <MenubarItem disabled inset>
+          <MenubarItem disabled inset onClick={() => window.location.reload()}>
             Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
@@ -88,15 +88,21 @@ export function MenubarDemo() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Profiles</MenubarTrigger>
+        <MenubarTrigger>Help</MenubarTrigger>
         <MenubarContent>
+          {/* 
           <MenubarRadioGroup value="benoit">
             <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
             <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
             <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
           </MenubarRadioGroup>
-          <MenubarSeparator />
-          <MenubarItem inset>Edit...</MenubarItem>
+          <MenubarSeparator /> */}
+          <MenubarItem inset onClick={() => window.location.reload()}>
+            Lock it
+          </MenubarItem>
+          <MenubarItem inset onClick={() => window.electron.ipcRenderer.invoke('win:devtools')}>
+            Toggle Devtools
+          </MenubarItem>
           <MenubarSeparator />
           <MenubarItem inset>Add Profile...</MenubarItem>
         </MenubarContent>

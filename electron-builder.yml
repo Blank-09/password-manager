@@ -1,6 +1,7 @@
 appId: com.password-manager.app
 productName: Password Manager
 directories:
+  output: 'release/${version}'
   buildResources: build
 files:
   - '!**/.vscode/*'
@@ -11,7 +12,6 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
-afterSign: build/notarize.js
 win:
   executableName: password-manager
 nsis:
@@ -26,6 +26,7 @@ mac:
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  notarize: false
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
@@ -33,7 +34,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: blank-09
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}

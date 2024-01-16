@@ -10,10 +10,11 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut
-} from './ui/command'
+} from '@/components/ui/command'
 
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import generateRandomPassword from '../lib/generatePassword'
+import generateRandomPassword from '@/lib/generatePassword'
+import { useTheme } from 'next-themes'
 
 interface CommandGroup {
   heading: string
@@ -90,6 +91,7 @@ const groups: [CommandGroup, CommandGroup] = [
 export function CustomCommandDialog() {
   const [open, setOpen] = React.useState(false)
   const navigate = useNavigate()
+  const { theme, setTheme } = useTheme()
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -98,8 +100,7 @@ export function CustomCommandDialog() {
       }
 
       if (e.ctrlKey && e.key === 'd') {
-        localStorage.setItem('dark', localStorage.getItem('dark') === '1' ? '0' : '1')
-        document.body.classList.toggle('dark')
+        setTheme(theme === 'dark' ? 'light' : 'dark')
       }
     }
 

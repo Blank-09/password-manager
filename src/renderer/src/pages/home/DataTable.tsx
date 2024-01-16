@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '../../components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 
 import {
   Table,
@@ -29,25 +29,16 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '../../components/ui/table'
+} from '@/components/ui/table'
 
 import { CaretSortIcon, ChevronDownIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { Button } from '../../components/ui/button'
-import { Checkbox } from '../../components/ui/checkbox'
-import { Input } from '../../components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
 
-import IUserAccount from '../../interface/IUserAccount'
+import IUserAccount from '@/interface/IUserAccount'
 import { Clipboard, ListFilter, Pencil, Trash } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue
-// } from '../../components/ui/select'
 import { Filter } from 'lucide-react'
 
 export const columns: ColumnDef<IUserAccount>[] = [
@@ -278,28 +269,7 @@ export const AccountsDataTable: React.FC<{
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {/* <Select
-          onValueChange={(value) => {
-            if (value === 'a-z' || value === 'z-a') {
-              setSorting([{ id: 'account_name', desc: value === 'z-a' }])
-            } else {
-              setSorting([{ id: value, desc: false }])
-            }
-          }}
-        >
-          <SelectTrigger className="w-[180px] ml-auto">
-            <SelectValue placeholder="Sort by (default)" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Sort by</SelectLabel>
-              <SelectItem value="a-z">A-Z (default)</SelectItem>
-              <SelectItem value="z-a">Z-A (DES)</SelectItem>
-              <SelectItem value="created_at">Created Date</SelectItem>
-              <SelectItem value="modified_at">Modified Date</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select> */}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ms-auto ml-3">

@@ -1,4 +1,4 @@
-import IUserAccount from '../interface/IUserAccount'
+import IUserAccount from '@/interface/IUserAccount'
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {

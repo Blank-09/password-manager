@@ -7,14 +7,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '../../components/ui/dialog'
+} from '@/components/ui/dialog'
 
-import { Input } from '../../components/ui/input'
-import { Label } from '../../components/ui/label'
-import { Button } from '../../components/ui/button'
-import { Checkbox } from '../../components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 
-import { getUserAccount, insertIntoUserAccount, updateUserAccount } from '../../lib/SQL'
+import { getUserAccount, insertIntoUserAccount, updateUserAccount } from '@/lib/SQL'
 import { useMatch } from 'react-router-dom'
 import { EyeIcon, EyeOff } from 'lucide-react'
 

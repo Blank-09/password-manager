@@ -3,24 +3,18 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 
 // Components
-import { Label } from './components/ui/label'
-import { Button } from './components/ui/button'
-import { Switch } from './components/ui/switch'
-import { CustomCommandDialog as CommandDialog } from './components/Command'
-import { CustomMenubar as Menubar } from './components/MenuBar'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { CustomCommandDialog as CommandDialog } from '@/components/Command'
+import { CustomMenubar as Menubar } from '@/components/MenuBar'
+import { useTheme } from 'next-themes'
 
-function App(): JSX.Element {
-  const [dark, setDark] = React.useState<boolean>(false)
+const Home: React.FC = () => {
   const navigate = useNavigate()
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
-    const dark = localStorage.getItem('dark') === '1'
-    setDark(dark)
-
-    if (dark) {
-      document.body.classList.add('dark')
-    }
-
     if (localStorage.getItem('login') !== '1') {
       navigate('/')
     }
@@ -38,12 +32,8 @@ function App(): JSX.Element {
             <Label htmlFor="toggle">Dark Mode: </Label>
             <Switch
               id="toggle"
-              checked={dark}
-              onClick={() => {
-                setDark(!dark)
-                localStorage.setItem('dark', dark ? '0' : '1')
-                document.body.classList.toggle('dark')
-              }}
+              checked={theme === 'dark'}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             />
 
             <Button size="icon" onClick={() => navigate('create')}>
@@ -58,4 +48,4 @@ function App(): JSX.Element {
   )
 }
 
-export default App
+export default Home

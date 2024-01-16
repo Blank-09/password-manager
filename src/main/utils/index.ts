@@ -1,15 +1,18 @@
-import { EncryptedPassword, encrypt, decrypt } from './crypto'
-const { Database } = require('sqlite3')
-
-import IUserAccount from '../interface/IUserAccount'
-import { existsSync, mkdirSync } from 'fs'
+import fs from 'fs'
 import path from 'path'
 
-const dbPath = path.join(process.resourcesPath, 'db/db.sqlite3')
+import { app } from 'electron'
+import { EncryptedPassword, encrypt, decrypt } from './crypto'
 
-if (!existsSync(dbPath)) {
+import IUserAccount from '../interface/IUserAccount'
+
+const { Database } = require('sqlite3').verbose()
+const dbFolder = app.getPath('userData')
+const dbPath = path.join(dbFolder, 'db/db.sqlite3')
+
+if (!fs.existsSync(dbPath)) {
   console.log('Database not found, creating a new one...')
-  mkdirSync(path.join(process.resourcesPath, 'db'), { recursive: true })
+  fs.mkdirSync(path.join(dbFolder, 'db'), { recursive: true })
 }
 
 const db = new Database(dbPath)

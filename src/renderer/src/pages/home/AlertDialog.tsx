@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle
-} from '../../components/ui/alert-dialog'
+} from '@/components/ui/alert-dialog'
 
 import { useParams } from 'react-router-dom'
 

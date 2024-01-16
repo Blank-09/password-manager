@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Link, useLoaderData } from 'react-router-dom'
 import { Plus, Podcast } from 'lucide-react'
-import { Button } from '../../components/ui/button'
+import { Button } from '@/components/ui/button'
 
-import IUserAccount from '../../interface/IUserAccount'
+import IUserAccount from '@/interface/IUserAccount'
 import { AccountsDataTable } from './DataTable'
 
 const AccountEmpty: React.FC = () => {

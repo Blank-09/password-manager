@@ -40,3 +40,8 @@ To select and add components, run:
 ```sh
 pnpx shadcn-ui add
 ```
+
+---
+### Security Pin 🔐
+
+The password to enter in the app is `111111`

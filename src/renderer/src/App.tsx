@@ -1,22 +1,13 @@
-import * as React from 'react'
-
-import { RouterProvider } from 'react-router-dom'
-import { ThemeProvider } from 'next-themes'
-
-// Others
-import router from './routes'
+import { RouterProvider } from 'react-router'
 
 // Components
-import { Toaster } from '@/components/ui/sonner'
-import { ContextMenuProvider } from './components/ContextMenu'
+import { ThemeProvider } from './components/theme-provider'
+import { Toaster } from './components/ui/sonner'
 
-const App: React.FC = () => {
-  React.useEffect(() => {
-    if (localStorage.getItem('login') !== '1') {
-      router.navigate('/')
-    }
-  }, [])
+// Routes
+import router from './routes'
 
+function App(): JSX.Element {
   return (
     <ThemeProvider //
       attribute="class"
@@ -24,10 +15,8 @@ const App: React.FC = () => {
       enableSystem
       disableTransitionOnChange
     >
-      <ContextMenuProvider>
-        <RouterProvider router={router} />
-        <Toaster richColors />
-      </ContextMenuProvider>
+      <RouterProvider router={router} />
+      <Toaster richColors />
     </ThemeProvider>
   )
 }

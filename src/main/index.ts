@@ -1,19 +1,17 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-
+import { app, BrowserWindow, shell } from 'electron'
+import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
-import serve from './serve'
 
-import './IPC_SQL'
+import serve from 'electron-serve'
 
 let loadURL: ReturnType<typeof serve>
 
 if (!is.dev) {
-  loadURL = serve({ directory: 'out/renderer', scheme: 'pmg' })
+  loadURL = serve({ directory: 'out/renderer', scheme: 'pwd' })
 }
 
-async function createWindow(): Promise<void> {
+function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -28,33 +26,8 @@ async function createWindow(): Promise<void> {
     }
   })
 
-  ipcMain.on('minimize', () => {
-    mainWindow.minimize()
-  })
-
-  ipcMain.on('maximize', () => {
-    if (mainWindow.isMaximized()) mainWindow.unmaximize()
-    else mainWindow.maximize()
-  })
-
-  ipcMain.on('close', () => {
-    mainWindow.close()
-  })
-
-  mainWindow.on('maximize', () => {
-    mainWindow.webContents.send('maximize', true)
-  })
-
-  mainWindow.on('unmaximize', () => {
-    mainWindow.webContents.send('maximize', false)
-  })
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-  })
-
-  ipcMain.handle('win:devtools', () => {
-    mainWindow.webContents.toggleDevTools()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -65,9 +38,9 @@ async function createWindow(): Promise<void> {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    await mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    await loadURL(mainWindow)
+    loadURL(mainWindow)
   }
 }
 
@@ -76,7 +49,7 @@ async function createWindow(): Promise<void> {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.password-manager')
+  electronApp.setAppUserModelId('com.electron')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

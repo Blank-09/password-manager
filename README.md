@@ -11,37 +11,29 @@ An Electron application with React and TypeScript
 ### Install
 
 ```bash
-$ pnpm install
+$ npm install
 ```
 
 ### Development
 
 ```bash
-$ pnpm dev
+$ npm run dev
 ```
 
 ### Build
 
 ```bash
 # For windows
-$ pnpm build:win
+$ npm run build:win
 
 # For macOS
-$ pnpm build:mac
+$ npm run build:mac
 
 # For Linux
-$ pnpm build:linux
+$ npm run build:linux
 ```
 
----
-### Adding Components with shadcn
+## Trouble Shooting
 
-To select and add components, run:
-```sh
-pnpx shadcn-ui add
-```
-
----
-### Security Pin 🔐
-
-The password to enter in the app is `111111`
+- If you encounter any issues during build process, try these links
+  - https://stackoverflow.com/questions/78560953/i-am-get-this-error-while-build-my-electron-vite-project
